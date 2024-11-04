@@ -1,0 +1,467 @@
+create database db_faculdade; 
+
+  
+
+use db_faculdade; 
+
+  
+
+create table tbl_professor ( 
+id int not null primary key auto_increment, 
+nome varchar(100) not null, 
+cpf varchar (15) not null,  
+data_nascimento date, 
+
+unique index (id)  
+
+); 
+
+  
+create table tbl_aluno ( 
+id int not null primary key auto_increment, 
+nome varchar(100) not null, 
+cpf varchar(15) not null, 
+matricula varchar(18) not null,  
+data_nascimento date,  
+notas decimal(10) not null, 
+
+  
+
+unique index(id) 
+
+); 
+
+  
+
+create table tbl_curso  ( 
+id int not null primary key auto_increment, 
+nome varchar (45), 
+
+  
+unique index(id) 
+
+); 
+
+  
+
+create table tbl_materia ( 
+id int not null primary key auto_increment, 
+nome varchar (45), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_professor_materia ( 
+id int not null primary key auto_increment, 
+id_professor int not null, 
+id_materia int not null,  
+
+constraint fk_professor_materia_professor
+foreign key (id_professor) 
+references tbl_professor (id), 
+
+constraint fk_materia_professor_materia 
+foreign key (id_materia) 
+references  tbl_materia (id), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_telefone ( 
+id int not null primary key auto_increment, 
+telefone varchar (20) not null, 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_email ( 
+id int not null primary key auto_increment,  
+email varchar (255) not null,  
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_endereco ( 
+id int not null primary key auto_increment, 
+logradouro varchar (45) not null, 
+bairro varchar (45) not null, 
+cep varchar (10) not null, 
+cidade varchar (45) not null, 
+estado varchar (45) not null,  
+pais varchar (45) not null, 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_notas( 
+id int not null primary key auto_increment, 
+notas decimal (10), 
+
+unique index (id) 
+
+); 
+
+  
+
+create table materia_notas ( 
+id int not null primary key auto_increment, 
+id_materia int not null, 
+id_notas int not null, 
+
+constraint fk_materia_notas_materia
+foreign key (id_materia)  
+references tbl_materia (id), 
+
+constraint fk_notas_materia_notas
+foreign key (id_notas) 
+references tbl_notas (id), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_notas_aluno ( 
+id int not null primary key auto_increment, 
+id_notas int not null,  
+id_aluno int not null, 
+
+constraint fk_notas_aluno_notas
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+
+constraint fk_aluno_notas_aluno 
+foreign key (id_notas) 
+references tbl_notas(id), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_professor_notas (  
+id int not null primary key auto_increment,  
+id_professor int not null,  
+id_notas int not null,   
+
+constraint fk_professor_notas_professor  
+foreign key (id_professor)   
+references tbl_professor (id),   
+
+constraint fk_notas_professor_notas
+foreign key (id_notas)  
+references tbl_notas (id),   
+  
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_curso_materia ( 
+
+id int not null primary key auto_increment, 
+id_curso int not null, 
+id_materia int not null, 
+
+constraint fk_materia_curso_materia
+foreign key  (id_materia) 
+references tbl_materia (id), 
+  
+constraint fk_curso_materia_curso
+foreign key (id_curso) 
+references tbl_curso(id), 
+  
+unique index (id) 
+
+); 
+
+
+create table professor_endereco ( 
+id int not null primary key auto_increment, 
+id_professor int not null, 
+id_endereco int not null,  
+
+constraint fk_professor_endereco_professor 
+foreign key (id_professor) 
+references tbl_professor (id), 
+
+constraint fk_endereco_professor_endereco
+foreign key (id_endereco) 
+references tbl_endereco (id), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_professor_email ( 
+id int primary key not null auto_increment, 
+id_professor int not null, 
+id_email int not null, 
+  
+
+constraint fk_professor_email_professor
+foreign key (id_professor) 
+references tbl_professor (id), 
+
+constraint fk_email_professor_email
+foreign key (id_email) 
+references tbl_email (id),
+
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_professor_telefone ( 
+id int not null primary key auto_increment,  
+id_professor int not null, 
+id_telefone int not null, 
+  
+constraint fk_professor_telefone_professor
+foreign key (id_professor) 
+references tbl_professor (id), 
+  
+constraint fk_telefone_professor_telefone  
+foreign key (id_telefone) 
+references tbl_telefone (id), 
+  
+
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_aluno_materia ( 
+id int primary key not null auto_increment, 
+id_aluno int not null,  
+id_materia int not null,  
+
+  
+constraint fk_aluno_materia_aluno
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+
+constraint fk_materia_aluno_materia
+foreign key (id_materia) 
+references tbl_materia (id), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_aluno_telefone ( 
+id int primary key not null auto_increment, 
+id_aluno int not null, 
+id_telefone int not null, 
+  
+constraint fk_aluno_telefone_aluno
+foreign key (id_aluno) 
+references tbl_aluno(id), 
+
+constraint fk_telefone_aluno_telefone 
+foreign key (id_telefone) 
+references tbl_telefone (id), 
+
+  
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_aluno_email ( 
+id int not null primary key auto_increment, 
+id_aluno int not null, 
+id_email int not null, 
+
+constraint fk_aluno_email_aluno
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+  
+constraint fk_email_aluno_email
+foreign key (id_email) 
+references tbl_email (id), 
+
+unique index (id) 
+
+); 
+
+  
+
+create table aluno_endereco ( 
+id int not null primary key auto_increment, 
+id_aluno int not null, 
+id_endereco int not null, 
+
+  
+constraint fk_aluno_endereco_aluno 
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+
+constraint fk_endereco_aluno_endereco  
+foreign key (id_endereco) 
+references tbl_endereco (id), 
+
+unique index (id) 
+
+); 
+
+#fazer teste inserir dados em algumas tabelas 
+
+use db_faculdade;
+
+insert into tbl_aluno ( nome, cpf, matricula, data_nascimento, notas 
+) values ('liline dos santos','15255612345','12382','1975-08-30', '9');
+
+select*from tbl_aluno;
+
+insert into  tbl_professor (nome, cpf, data_nascimento
+) values ('agnaldo', '22299933323', '1955-01-10');
+
+select*from tbl_professor;
+references tbl_professor (id), 
+
+constraint fk_email_professor_email
+foreign key (id_email) 
+references tbl_email (id),
+
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_professor_telefone ( 
+id int not null primary key auto_increment,  
+id_professor int not null, 
+id_telefone int not null, 
+  
+constraint fk_professor_telefone_professor
+foreign key (id_professor) 
+references tbl_professor (id), 
+  
+constraint fk_telefone_professor_telefone  
+foreign key (id_telefone) 
+references tbl_telefone (id), 
+  
+
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_aluno_materia ( 
+id int primary key not null auto_increment, 
+id_aluno int not null,  
+id_materia int not null,  
+
+  
+constraint fk_aluno_materia_aluno
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+
+constraint fk_materia_aluno_materia
+foreign key (id_materia) 
+references tbl_materia (id), 
+
+  unique index (id) 
+
+); 
+
+  
+
+create table tbl_aluno_telefone ( 
+id int primary key not null auto_increment, 
+id_aluno int not null, 
+id_telefone int not null, 
+  
+constraint fk_aluno_telefone_aluno
+foreign key (id_aluno) 
+references tbl_aluno(id), 
+
+constraint fk_telefone_aluno_telefone 
+foreign key (id_telefone) 
+references tbl_telefone (id), 
+
+  
+unique index (id) 
+
+); 
+
+  
+
+create table tbl_aluno_email ( 
+id int not null primary key auto_increment, 
+id_aluno int not null, 
+id_email int not null, 
+
+constraint fk_aluno_email_aluno
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+  
+constraint fk_email_aluno_email
+foreign key (id_email) 
+references tbl_email (id), 
+
+unique index (id) 
+
+); 
+
+  
+
+create table aluno_endereco ( 
+id int not null primary key auto_increment, 
+id_aluno int not null, 
+id_endereco int not null, 
+
+  
+constraint fk_aluno_endereco_aluno 
+foreign key (id_aluno) 
+references tbl_aluno (id), 
+
+constraint fk_endereco_aluno_endereco  
+foreign key (id_endereco) 
+references tbl_endereco (id), 
+
+unique index (id) 
+
+); 
+
+#fazer teste inserir dados em algumas tabelas 
+
+use db_faculdade;
+
+insert into tbl_aluno ( nome, cpf, matricula, data_nascimento, notas 
+) values ('liline dos santos','15255612345','12382','1975-08-30', '9');
+
+select*from tbl_aluno;
+
+insert into  tbl_professor (nome, cpf, data_nascimento
+) values ('agnaldo', '22299933323', '1955-01-10');
+
+select*from tbl_professor;
